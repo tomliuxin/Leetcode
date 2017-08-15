@@ -1,0 +1,33 @@
+public class Solution {
+    public bool IsHappy(int n) {
+        return isHappy(n,new List<int>());
+        
+    }
+    
+    private bool isHappy(int n, List<int> list)
+    {
+        int num=0;
+        while (n>0)
+        {
+            int i=n % 10;
+            num+=i*i;
+            n=n/10;
+        }
+        if (num==1)
+        {
+            return true;
+        }
+        else
+        {
+            if (list.Contains(num))
+            {
+                return false;
+            }
+            else
+            {
+                list.Add(num);
+                return isHappy(num,list);
+            }
+        }
+    }
+}

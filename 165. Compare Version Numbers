@@ -1,0 +1,62 @@
+public class Solution {
+    public int CompareVersion(string version1, string version2) {
+        return compare(version1,version2);
+    }
+    
+    int compare(string version1, string version2)
+    {
+        if (string.IsNullOrEmpty(version1) && string.IsNullOrEmpty(version2))
+        {
+            return 0;
+        }
+        if (string.IsNullOrEmpty(version1))
+        {
+            return -1;
+        }
+        if (string.IsNullOrEmpty(version2))
+        {
+            return 1;
+        }
+        
+        int index1=version1.IndexOf(".");
+        int index2=version2.IndexOf(".");
+        
+        int v1=0;
+        int v2=0;
+        
+        if (index1>0)
+        {
+            v1=int.Parse(version1.Substring(0,index1));
+        }
+        else
+        {
+            v1=int.Parse(version1);
+        }
+        
+        if (index2>0)
+        {
+            v2=int.Parse(version2.Substring(0,index2));
+        }
+        else
+        {
+            v2=int.Parse(version2);
+        }
+        
+        if (v1>v2)
+        {
+            return 1;
+        }
+        else if (v1<v2)
+        {
+            return -1;
+        }
+        else
+        {
+            if (index1>0 || index2>0)
+            {
+                 return compare(index1>0? version1.Substring(index1+1):"0",index2>0 ? version2.Substring(index2+1):"0");
+            }
+            return 0;
+        }
+    }
+}

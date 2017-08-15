@@ -1,0 +1,34 @@
+public class Solution {
+    public string CountAndSay(int n) {
+        string s="";
+        if (n>0)
+        {
+            if (n==1)
+                return "1";
+            else
+            {
+                int i=2;
+                s="1";
+                while(i<=n)
+                {
+                    string temp="";
+                    int num=0;
+                    for(int j=0;j<s.Length;j++)
+                    {
+                        if (j==0 || s[j]==s[j-1])
+                            num++;
+                        else
+                        {
+                            temp+=num.ToString()+s[j-1].ToString();
+                            num=1;
+                        }
+                    }
+                    temp+=num.ToString()+s[s.Length-1].ToString();
+                    s=temp;
+                    i++;
+                }
+            }
+        }
+        return s;
+    }
+}

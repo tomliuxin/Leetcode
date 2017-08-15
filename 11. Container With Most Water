@@ -1,36 +1,21 @@
- public class MaxWaterArea
-    {
-        /*
-		 11. Container With Most Water 
-         Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). 
-         n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, 
-         which together with x-axis forms a container, such that the container contains the most water. 
-         Note: You may not slant the container and n is at least 2. 
-         大致意思就是，找到一组线段中，最合适的两条线段，使得它俩和X轴组成的桶子能装最多的水。
-         思路就是，对于已经找到的最合适线段h[i]，h[j]。如果它们的子区域（即它们之间的区域）还有更大的容器，那么必须是高度更高，
-         因为子区域的对应X轴长度肯定更短，所以只能靠高度弥补。那么要如何弥补？当然是从更短的那一边进入子区域，找到一条更高的线段，
-         看是否能弥补进入子区域这一段距离的损失。另外，对于相等的两边，那么从任一边进入均可，这是因为，如果有更合适的子区域，
-         那么该区域的两边均不会与原边相重合，因为如果有任一边相重合，那么另一边肯定比原来的h[i], h[j]更高，
-         但是此时就只能以h[j]的高度作为桶的高度，那么面积肯定相对于原来要减小
-             */
-        public static int GetMaxWaterArea(int[] height)
+public class Solution {
+    public int MaxArea(int[] height) {
+        int left=0;
+        int right=height.Length-1;
+        int max=0;
+        while (left<right)
         {
-            int max = 0;
-            int left = 0;
-            int right = height.Length - 1;
-            while (left < right)
+            max=Math.Max(max,(right-left)*Math.Min(height[left],height[right]));
+            if (height[left]<height[right])
             {
-                max = Math.Max(max, (right -left) * Math.Min(height[left], height[right]));
-                if (height[left] < height[right])
-                {
-                    left++;
-                }
-                else
-                {
-                    right--;
-                }
+                left++;
             }
-
-            return max;
+            else
+            {
+                right--;
+            }
         }
+        
+        return max;
     }
+}

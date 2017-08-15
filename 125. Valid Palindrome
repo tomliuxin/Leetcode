@@ -1,0 +1,23 @@
+public class Solution {
+    public bool IsPalindrome(string s) {
+        if (!string.IsNullOrEmpty(s))
+        {
+            string newStr=s.ToLower();
+            int start=0;
+            int end=newStr.Length-1;
+            while(start<end)
+            {
+                while(start<end && !char.IsLetterOrDigit(newStr[start]))
+                    start++;
+                while(start<end && !char.IsLetterOrDigit(newStr[end]))
+                    end--;
+                
+                if (newStr[start++]!=newStr[end--])
+                    return false;
+            }
+            return true;
+        }
+        else
+            return true;
+    }
+}

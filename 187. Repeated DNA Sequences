@@ -1,0 +1,25 @@
+public class Solution {
+    public IList<string> FindRepeatedDnaSequences(string s) {
+        IList<string> list=new List<string>();
+        if (!string.IsNullOrEmpty(s) && s.Length>=10)
+        {
+            Dictionary<string,int> dict=new Dictionary<string,int>();
+            for(int i=0;i<s.Length-9;i++)
+            {
+                string sub=s.Substring(i,10);
+                if (dict.ContainsKey(sub))
+                {
+                    dict[sub]++;
+                }
+                else
+                    dict.Add(sub,1);
+                if (dict[sub]==2)
+                {
+                    list.Add(sub);
+                }
+            }
+        }
+        
+        return list;
+    }
+}

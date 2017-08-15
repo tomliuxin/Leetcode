@@ -1,0 +1,108 @@
+public class Solution {
+    
+        Dictionary<int,List<char>> rowDict=new Dictionary<int,List<char>>();
+        Dictionary<int,List<char>> columnDict=new Dictionary<int,List<char>>();
+        Dictionary<string,List<char>> areaDict=new Dictionary<string,List<char>>();
+        List<KeyValuePair<int,int>> empties=new List<KeyValuePair<int,int>>();
+        
+        public void SolveSudoku(char[,] board) {
+            initBoard(board);
+            if (empties.Count>0)
+            {
+                fillBoard(board,0);
+            }
+
+        }
+    
+        private bool fillBoard(char[,] board,int index)
+        {
+            
+            if (index>=empties.Count)
+            {
+                return true;
+            }
+            else
+            {
+                int i=empties[index].Key;
+                int j=empties[index].Value;
+                for(int k=1;k<=9;k++)
+                {
+                    char c=(char)('0'+k);
+                    if (isValid(i,j,c))
+                    {
+                        board[i,j]=c;
+                        rowDict[i].Add(c);
+                        columnDict[j].Add(c);
+                        string key=(i/3).ToString()+(j/3).ToString();
+                        areaDict[key].Add(c);
+                        bool result=fillBoard(board,index+1);
+                        if (result)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            rowDict[i].Remove(c);
+                            columnDict[j].Remove(c);
+                            areaDict[key].Remove(c);
+                            board[i,j]='.';
+                        }
+                    }
+                }
+            }
+           
+            return false;
+        }
+    
+        private void initBoard(char[,] board)
+        {
+            for(int i=0;i<9;i++)
+            {
+                rowDict.Add(i,new List<char>());
+                for (int j=0;j<9;j++)
+                {
+                    if (!columnDict.ContainsKey(j))
+                    {
+                        columnDict.Add(j,new List<char>());
+                    }
+                    string key=(i/3).ToString()+(j/3).ToString();
+                    if (!areaDict.ContainsKey(key))
+                    {
+                        areaDict.Add(key,new List<char>());
+                    }
+                    
+                    if (board[i,j]!='.' )
+                    {
+                        rowDict[i].Add(board[i,j]);
+                        columnDict[j].Add(board[i,j]);
+                        areaDict[key].Add(board[i,j]);
+                    }
+                    else
+                    {
+                        empties.Add(new KeyValuePair<int,int>(i,j));
+                    }
+                }
+            }
+        }
+    
+    
+        private bool isValid(int i,int j,char value)
+        {
+            if (rowDict[i].Contains(value))
+            {
+                return false;
+            }
+            if (columnDict[j].Contains(value))
+            {
+                return false;
+            }
+            string key=(i/3).ToString()+(j/3).ToString();
+            if (areaDict[key].Contains(value))
+            {
+                return false;
+            }
+            return true;
+            
+        }
+    
+}

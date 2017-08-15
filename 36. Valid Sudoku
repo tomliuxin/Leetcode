@@ -1,0 +1,59 @@
+public class Solution {
+    public bool IsValidSudoku(char[,] board) {
+        Dictionary<int,List<char>> rowDict=new Dictionary<int,List<char>>();
+        Dictionary<int,List<char>> columnDict=new Dictionary<int,List<char>>();
+        Dictionary<string,List<char>> areaDict=new Dictionary<string,List<char>>();
+        for(int i=0;i<9;i++)
+        {
+            rowDict.Add(i,new List<char>());
+            for (int j=0;j<9;j++)
+            {
+                if (!columnDict.ContainsKey(j))
+                {
+                    columnDict.Add(j,new List<char>());
+                }
+                
+                string key=(i/3).ToString()+(j/3).ToString();
+                if (!areaDict.ContainsKey(key))
+                {
+                    areaDict.Add(key,new List<char>());
+                }
+                
+                if (board[i,j]!='.' )
+                {
+                    if (board[i,j]<'1' || board[i,j]>'9')
+                    {
+                        return false;
+                    }
+                    if (rowDict[i].Contains(board[i,j]))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        rowDict[i].Add(board[i,j]);
+                    }
+                    
+                    if (columnDict[j].Contains(board[i,j]))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        columnDict[j].Add(board[i,j]);
+                    }
+                    if (areaDict[key].Contains(board[i,j]))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        areaDict[key].Add(board[i,j]);
+                    }
+                }
+            }
+        }
+        
+        return true;
+    }
+}

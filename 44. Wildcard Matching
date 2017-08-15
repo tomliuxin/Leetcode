@@ -1,0 +1,71 @@
+public class Solution {
+    public bool IsMatch(string s, string p) {
+        if (s==null && p==null)
+        {
+            return true;
+        }
+        if (s==null || p==null)
+        {
+            return false;
+        }
+        
+        if (p.Length==0 && s.Length==0)
+        {
+            return true;
+        }
+        if (s.Length==0)
+        {
+            if (p=="*")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        int n=s.Length;
+        int m=p.Length;
+        bool[,] match=new bool[n+1,m+1];
+        match[0,0]=true;
+        
+        for (int i=0;i<=n;i++)
+        {
+            for (int j=0;j<=m;j++)
+            {
+                if (i==0 && j==0)
+                {
+                    continue;
+                }
+                
+                if (j==0)
+                {
+                    match[i,j]=false;
+                    continue;
+                }
+                
+                if (i == 0) {
+                    match[i,j] = match[i,j - 1] && p[j-1] == '*';
+                 } else {
+                     match[i,j] = (matchChar(s[i - 1], p[j - 1]) && match[i - 1,j - 1])
+                       || (p[j - 1] == '*' && (match[i,j - 1] || match[i- 1,j]));    
+                 }
+                 
+                 if (match[i,j] && p[j-1]=='*' && j==m)
+                 {
+                     return true;
+                 }
+
+            }
+            
+        }
+        
+        return match[n,m];
+    }
+    
+    private bool matchChar(char c,char p)
+    {
+        return c==p || p=='?';
+    }
+}

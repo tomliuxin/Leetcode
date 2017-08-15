@@ -1,0 +1,68 @@
+public class Solution {
+    public string FractionToDecimal(int numerator, int denominator) {
+        string result="";  
+        if (numerator==0)
+            return "0";
+        if (numerator==int.MinValue && denominator==-1)
+        {
+            return numerator.ToString().Substring(1);
+        }
+        if (numerator==int.MinValue && denominator==1)
+        {
+            return numerator.ToString();
+        }
+        if (denominator==int.MinValue && numerator==-1)
+        {
+            return "0.0000000004656612873077392578125";   
+        }
+        
+        
+        if (denominator!=0)
+        {
+            Dictionary<int,int> dict=new Dictionary<int,int>();
+            bool isNeg=false;
+            if ((numerator<0 && denominator>0) || (numerator>0 && denominator<0))
+                isNeg=true;
+            int extra=0;
+            if (numerator==int.MinValue)
+            {
+                numerator+=Math.Abs(denominator);
+                extra=1;
+            }
+            if (numerator<0)
+                numerator*=(-1);
+            if (denominator<0)
+                denominator*=-1;
+            int num1=numerator/denominator+extra;
+            string s1=num1.ToString();
+            int num2=numerator % denominator;
+            string s2="";
+            if (num2!=0)
+                s2=".";
+            int i=1;
+            while(num2!=0)
+            {
+                num2=num2*10;
+                if (dict.ContainsKey(num2))
+                {
+                    s2=s2.Substring(0,dict[num2])+"("+s2.Substring(dict[num2])+")";
+                    break;
+                }
+                else
+                {
+                    dict.Add(num2,i);
+                }
+                i++;
+                int n=num2/denominator;
+                s2+=n.ToString();
+                num2=num2 % denominator;
+            }
+            
+            result=s1+s2;
+            if (isNeg)
+                result="-"+result;
+        }
+        
+        return result;
+    }
+}

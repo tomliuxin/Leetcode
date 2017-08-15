@@ -1,0 +1,30 @@
+public class Solution {
+    public int FirstMissingPositive(int[] nums) {
+        if (nums!=null && nums.Length>0)
+        {
+            HashSet<int> ht=new HashSet<int>();
+            int min=int.MaxValue;
+            foreach(int n in nums)
+            {
+                ht.Add(n);
+                if (n<min && n>=1)
+                    min=n;
+            }
+            if (min!=1)
+                return 1;
+            while(true)
+            {
+                if (ht.Contains(min))
+                {
+                    min++;
+                }
+                else
+                {
+                    return min;
+                }
+            }
+        }
+        else
+            return 1;
+    }
+}

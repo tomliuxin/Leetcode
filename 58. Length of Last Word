@@ -1,0 +1,24 @@
+public class Solution {
+    public int LengthOfLastWord(string s) {
+        if (!string.IsNullOrEmpty(s))
+        {
+            int end=s.Length-1;
+            while(end>=0 && s[end]==' ')
+                end--;
+            if (end<0)
+                return 0;
+            
+            int start=end;
+            while(start>=0)
+            {
+                if (s[start]!=' ')
+                    start--;
+                else
+                    break;
+            }
+            return end-start;
+        }
+        else
+            return 0;
+    }
+}
