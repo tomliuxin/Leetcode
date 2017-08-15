@@ -1,0 +1,27 @@
+public class Solution {
+    public int CountSegments(string s) {
+        int num=0;
+        if (!string.IsNullOrEmpty(s))
+        {
+            int start=0;
+            while (start<s.Length && s[start]==' ')
+            {
+                start++;
+            }
+            bool hasLetter=start<s.Length;
+            for(int i=start;i<s.Length;i++)
+            {
+                if (hasLetter && s[i]==' ')
+                {
+                    hasLetter=false;
+                    num++;
+                }
+                else if (s[i]!=' ')
+                    hasLetter=true;
+            }
+            if (hasLetter)
+                num++;
+        }
+        return num;
+    }
+}

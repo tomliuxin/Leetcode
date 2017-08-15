@@ -1,0 +1,30 @@
+public class Solution {
+    public int DistributeCandies(int[] candies) {
+        int max=0;
+        if (candies!=null && candies.Length>0)
+        {
+            Dictionary<int,int> dict=new Dictionary<int,int>();
+            foreach(int n in candies)
+            {
+                if (dict.ContainsKey(n))
+                {
+                    dict[n]++;
+                }
+                else
+                {
+                    dict.Add(n,1);
+                }
+            }
+            
+            if (dict.Keys.Count>=candies.Length/2)
+            {
+                max=candies.Length/2;
+            }
+            else
+            {
+                max=dict.Keys.Count;
+            }
+        }
+        return max;
+    }
+}

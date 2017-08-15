@@ -1,0 +1,16 @@
+public class Solution {
+    public int[] Intersection(int[] nums1, int[] nums2) {
+        List<int> list1=nums1.ToList<int>();
+        List<int> list2=nums2.ToList<int>();
+        List<int> listResult=new List<int>();
+        foreach (int i in nums1)
+        {
+            if (list2.Contains(i) && !listResult.Contains(i))
+            {
+                listResult.Add(i);
+            }
+        }
+        
+        return listResult.ToArray();
+    }
+}

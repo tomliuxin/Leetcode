@@ -1,0 +1,59 @@
+public class Solution {
+    
+    Dictionary<char,int> dict=new Dictionary<char,int>();
+    public Solution()
+    {
+        dict.Add('Q',1);
+        dict.Add('W',1);
+        dict.Add('E',1);
+        dict.Add('R',1);
+        dict.Add('T',1);
+        dict.Add('Y',1);
+        dict.Add('U',1);
+        dict.Add('I',1);
+        dict.Add('O',1);
+        dict.Add('P',1);
+        
+        dict.Add('A',2);
+        dict.Add('S',2);
+        dict.Add('D',2);
+        dict.Add('F',2);
+        dict.Add('G',2);
+        dict.Add('H',2);
+        dict.Add('J',2);
+        dict.Add('K',2);
+        dict.Add('L',2);
+        
+        dict.Add('Z',3);
+        dict.Add('X',3);
+        dict.Add('C',3);
+        dict.Add('V',3);
+        dict.Add('B',3);
+        dict.Add('N',3);
+        dict.Add('M',3);
+        
+        
+    }
+        
+    public string[] FindWords(string[] words) {
+        List<string> list=new List<string>();
+        if (words!=null && words.Length>0)
+        {
+            for(int i=0;i<words.Length;i++)
+            {
+                string word=words[i].ToUpper();
+                int index=1;
+                while(index<word.Length)
+                {
+                    if (!dict.ContainsKey(word[index]) || dict[word[index]]!=dict[word[index-1]])
+                        break;
+                    index++;
+                }
+                if (index==word.Length)
+                    list.Add(words[i]);
+            }
+        }
+        
+        return list.ToArray();
+    }
+}

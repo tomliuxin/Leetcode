@@ -1,0 +1,32 @@
+public class Solution {
+    public int CountSubstrings(string s) {
+        int num=0;
+        if (!string.IsNullOrEmpty(s))
+        {
+            for(int i=0;i<s.Length;i++)
+            {
+                for(int j=1;j<=s.Length-i;j++)
+                {
+                    string sub=s.Substring(i,j);
+                    if (isPalindromic(sub))
+                        num++;
+                }
+            }
+        }
+        
+        return num;
+    }
+    
+    private bool isPalindromic(string s)
+    {
+        int start=0;
+        int end=s.Length-1;
+        while(start<end)
+        {
+            if (s[start++]!=s[end--])
+                return false;
+        }
+        
+        return true;
+    }
+}

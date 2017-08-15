@@ -1,0 +1,40 @@
+public class Solution {
+    public string ReverseVowels(string s) {
+        List<char> list=new List<char>();
+        list.Add('a');
+        list.Add('i');
+        list.Add('e');
+        list.Add('o');
+        list.Add('u');
+        list.Add('A');
+        list.Add('E');
+        list.Add('I');
+        list.Add('O');
+        list.Add('U');
+        
+        if (!string.IsNullOrEmpty(s))
+        {
+            int start=0;
+            int end=s.Length-1;
+            char[] arr=s.ToCharArray();
+            while(start<end)
+            {
+                while (start<end && !list.Contains(arr[start]))
+                    start++;
+                while (start<end && !list.Contains(arr[end]))
+                    end--;
+                if (start<end)
+                {
+                    char temp=arr[start];
+                    arr[start]=arr[end];
+                    arr[end]=temp;
+                }
+                start++;
+                end--;
+            }
+            return new string(arr);
+        }
+        else
+            return s;
+    }
+}

@@ -1,0 +1,77 @@
+public class Solution {
+    public string NearestPalindromic(string n) {
+        long num=long.Parse(n);
+        long big=findHigherPalindrome(num+1);
+        long small=findLowerPalindrome(num-1);
+        return Math.Abs(big-num)<Math.Abs(small-num) ? big.ToString():small.ToString();      
+    }
+    
+    private long findHigherPalindrome(long n)
+    {
+        string s1=n.ToString();
+        int m=s1.Length;
+        char[] t=s1.ToCharArray();
+        for (int i = 0; i < m / 2; i++) {
+            t[m - 1 - i] = t[i];
+        }
+        for(int i=0;i<m;i++)
+        {
+            if (s1[i]<t[i])
+                return long.Parse(new string(t));
+            else if (s1[i]>t[i])
+            {
+                for (int j = (m - 1) / 2; j >= 0; j--) {
+                    if (++t[j] > '9') {
+                        t[j] = '0';
+                    } else {
+                        break;
+                    }
+                }
+                // make it palindrome again
+                for (int k = 0; k < m / 2; k++) {
+                    t[m - 1 - k] = t[k];
+                }
+                
+                return long.Parse(new string(t));
+
+            }
+        }
+        
+        return long.Parse(new string(t));
+
+    }
+    
+    private long findLowerPalindrome(long n)
+    {
+        string s1=n.ToString();
+        int m=s1.Length;
+        char[] t=s1.ToCharArray();
+        for (int i = 0; i < m / 2; i++) {
+            t[m - 1 - i] = t[i];
+        }
+        for(int i=0;i<m;i++)
+        {
+            if (s1[i]>t[i])
+                return long.Parse(new string(t));
+            else if (s1[i]<t[i])
+            {
+                for(int j=(m-1)/2;j>=0;j--)
+                {
+                    if (--t[j]<'0')
+                        t[j]='9';
+                    else 
+                        break;
+                }
+                if (t[0]=='0')
+                    return long.Parse(new string('9',m-1));
+                for (int k = 0; k < m / 2; k++) {
+                    t[m - 1 - k] = t[k];
+                }
+                return long.Parse(new string(t));
+
+            }
+        }
+        
+        return long.Parse(new string(t));
+    }
+}

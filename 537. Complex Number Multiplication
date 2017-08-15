@@ -1,0 +1,14 @@
+public class Solution {
+    public string ComplexNumberMultiply(string a, string b) {
+        if (!string.IsNullOrEmpty(a) && !string.IsNullOrEmpty(b))
+        {
+            string[] num1s=a.Split(new char[]{'+','i'});
+            string[] num2s=b.Split(new char[]{'+','i'});
+            int num1=int.Parse(num1s[0])*int.Parse(num2s[0])-int.Parse(num1s[1])*int.Parse(num2s[1]);
+            int num2=int.Parse(num1s[0])* int.Parse(num2s[1])+int.Parse(num1s[1])*int.Parse(num2s[0]);
+            return string.Format("{0}+{1}i",num1,num2);
+        }
+        else
+            return "";
+    }
+}

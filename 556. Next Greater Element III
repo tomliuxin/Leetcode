@@ -1,0 +1,38 @@
+public class Solution {
+    public int NextGreaterElement(int n) {
+        string s=n.ToString();
+        char[] arr=s.ToCharArray();
+        int i=s.Length-1;
+        while(i>0 && s[i-1]>=s[i])
+        {
+            i--;
+        }
+        if (i==0)
+            return -1;
+        int j=i;
+        while(j<s.Length && s[j]>s[i-1])
+        {
+            j++;
+        }
+        j--;
+        char temp=arr[i-1];
+        arr[i-1]=arr[j];
+        arr[j]=temp;
+        int start=i,end=arr.Length-1;
+        while(start<end)
+        {
+            char t=arr[start];
+            arr[start]=arr[end];
+            arr[end]=t;
+            start++;
+            end--;
+        }
+        s=new string(arr);
+        
+        long v=long.Parse(s);
+        if (v>int.MaxValue)
+            return -1;
+        else
+            return (int)v;
+    }
+}

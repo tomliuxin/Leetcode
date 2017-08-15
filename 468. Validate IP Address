@@ -1,0 +1,86 @@
+public class Solution {
+    public string ValidIPAddress(string IP) {
+        if (string.IsNullOrEmpty(IP))
+        {
+            return "Neither";
+        }
+        
+        if (IP.IndexOf(".")>0)
+        {
+            if (isValidIPv4(IP))
+                return "IPv4";
+            else
+                return "Neither";
+        }
+        else if (IP.IndexOf(":")>0)
+        {
+            if (isValidIPv6(IP))
+                return "IPv6";
+            else
+                return "Neither";
+        }
+        else
+        {
+            return "Neither";
+        }
+    }
+    
+    private bool isValidIPv4(string IP)
+    {
+        if (string.IsNullOrEmpty(IP))
+            return false;
+        if (IP.EndsWith("."))
+            return false;
+        string[] addresses=IP.Split(new char[]{'.'});
+        if (addresses.Length!=4)
+            return false;
+        foreach(string address in addresses)
+        {
+            
+            if (address.Length>3 || address.Length==0)
+                return false;
+            if (address.Length>1 && (address[0]=='0' || !char.IsNumber(address[0])))
+                return false;
+            
+            int ip;
+            if (!int.TryParse(address, out ip))
+            {
+                return false;
+            }
+            if (ip<0 || ip>255)
+                return false;
+           
+        }
+         return true;
+    }
+    
+    private bool isValidIPv6(string IP)
+    {
+        if (string.IsNullOrEmpty(IP))
+            return false;
+        if (IP.EndsWith(":"))
+            return false;
+        string lower=IP.ToLower();
+        string[] addresses=lower.Split(new char[]{':'});
+        if (addresses.Length!=8)
+            return false;
+        
+        foreach(string address in addresses)
+        {
+            
+            if (address.Length>4 || address.Length==0)
+                return false;
+
+            foreach(char c in address)
+            {
+                if (!(c>='0' && c<='9') && !(c>='a' && c<='f'))
+                {
+                    return false;
+                }
+            }
+            
+        }
+        
+        return true;
+    }
+}

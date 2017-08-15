@@ -1,0 +1,43 @@
+//Timeout
+
+public class Solution {
+    public int[] SmallestRange(IList<IList<int>> nums) {
+        if(nums!=null && nums.Count>0)
+        {
+            int[] smallest=new int[nums.Count];
+            Dictionary<int,int> dict=new Dictionary<int,int>();
+            int max=0;
+            for(int i=0;i<nums.Count;i++)
+            {
+                dict.Add(i,nums[i][0]);
+                max=Math.Max(max,nums[i][0]);
+            }
+            
+            int num1=-100000;
+            int num2=100001;
+            while (dict.Keys.Count==nums.Count)
+            {
+                var q=from item in dict
+                      orderby item.Value ascending
+                      select item.Key;
+                int minI=q.ToList<int>()[0];
+                int min=dict[minI];
+                
+                if (max-min<num2-num1)
+                {
+                    num1=min;
+                    num2=max;
+                }
+                
+                if (smallest[minI]==nums[minI].Count-1)
+                    break;
+                smallest[minI]++;
+                dict[minI]=nums[minI][smallest[minI]];
+                max=Math.Max(max,nums[minI][smallest[minI]]);
+                
+            }
+            return new int[]{num1,num2};
+        }
+        return new int[]{0,0};
+    }
+}

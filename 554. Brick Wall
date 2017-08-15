@@ -1,0 +1,36 @@
+public class Solution {
+    public int LeastBricks(IList<IList<int>> wall) {
+
+        if (wall!=null && wall.Count>0)
+        {
+            Dictionary<int,int> dict=new Dictionary<int,int>();
+                
+            foreach(IList<int> list in wall)
+            {
+                int len=0;
+                for(int i=0;i<list.Count-1;i++)
+                {
+                    len+=list[i];
+                    if (dict.ContainsKey(len))
+                    {
+                        dict[len]++;
+                    }
+                    else
+                    {
+                        dict.Add(len,1);
+                    }
+                }
+            }
+
+            int max=0;
+            foreach(int key in dict.Keys)
+            {
+                max=Math.Max(max,dict[key]);
+            }
+
+            return wall.Count-max;
+        }
+        
+        return 0;
+    }
+}

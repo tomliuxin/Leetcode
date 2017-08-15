@@ -1,0 +1,37 @@
+public class Solution {
+    public string ReverseStr(string s, int k) {
+        if (!string.IsNullOrEmpty(s) && k>1)
+        {
+            int i=0;
+            while(i<s.Length)
+            {
+                if (i+k>s.Length)
+                {
+                    s=revert(s,i,s.Length-1);
+                }
+                else
+                {
+                    s=revert(s,i,i+k-1);
+                }
+                i+=2*k;
+            }
+            return s;
+        }
+        else
+            return s;
+    }
+    
+    public string revert(string s,int start,int end)
+    {
+        char[] arr=s.ToCharArray();
+        while(start<end)
+        {
+            char temp=arr[start];
+            arr[start]=arr[end];
+            arr[end]=temp;
+            start++;
+            end--;
+        }
+        return new string(arr);
+    }
+}

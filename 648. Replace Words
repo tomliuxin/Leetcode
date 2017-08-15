@@ -1,0 +1,35 @@
+public class Solution {
+    public string ReplaceWords(IList<string> dict, string sentence) {
+        StringBuilder sb=new StringBuilder();
+        if (dict!=null && !string.IsNullOrEmpty(sentence))
+        {
+            var q = from root in dict
+                    orderby root.Length
+                    select root;
+            dict=q.ToList<string>();
+            sentence=sentence.Trim()+" ";
+            int start=0;
+            for(int i=0;i<sentence.Length;i++)
+            {
+                if (sentence[i]!=' ')
+                    continue;
+                string word=sentence.Substring(start,i-start);
+                for(int j=0;j<dict.Count;j++)
+                {
+                    if (word.StartsWith(dict[j]))
+                    {
+                        word=dict[j];
+                        break;
+                    }
+                }
+                sb.Append(" "+word);
+                start=i+1;
+            }
+        }
+        else
+        {
+            return sentence;
+        }
+        return sb.ToString().Substring(1);
+    }
+}

@@ -1,0 +1,30 @@
+public class Solution {
+    public int FindMinDifference(IList<string> timePoints) {
+        if (timePoints!=null && timePoints.Count>1)
+        {
+            Dictionary<int,int> dict=new Dictionary<int,int>();
+            foreach(string time in timePoints)
+            {
+                string[] nums=time.Split(':');
+                int t=int.Parse(nums[0])*60+int.Parse(nums[1]);
+                if (dict.ContainsKey(t))
+                    return 0;
+                else
+                {
+                    dict.Add(t,1);
+                    dict.Add(t+24*60,1);
+                }
+            }
+            int[] keys=dict.Keys.ToArray<int>();
+            Array.Sort(keys);
+            int min=2*24*60;
+            for(int i=1;i<keys.Length;i++)
+            {
+                min=Math.Min(min,keys[i]-keys[i-1]);
+            }
+            return min;
+        }
+        else
+            return 0;
+    }
+}

@@ -1,0 +1,46 @@
+public class Solution {
+    public IList<int> TopKFrequent(int[] nums, int k) {
+        Dictionary<int,int> dict=new Dictionary<int,int>();
+        foreach(int n in nums)
+        {
+            if (dict.ContainsKey(n))
+            {
+                dict[n]++;
+            }
+            else
+                dict.Add(n,1);
+        }
+        Dictionary<int,List<int>> dict2=new Dictionary<int,List<int>>();
+        foreach(int key in dict.Keys)
+        {
+            if (dict2.ContainsKey(dict[key]))
+            {
+                dict2[dict[key]].Add(key);
+            }
+            else
+            {
+                dict2.Add(dict[key],new List<int>(){key});
+            }
+        }
+        List<int> result=new List<int>();
+        if (nums!=null && nums.Length>0)
+        {
+            for(int i=nums.Length;i>=0;i--)
+            {
+                if (dict2.ContainsKey(i))
+                {
+                    foreach(int n in dict2[i])
+                    {
+                        result.Add(n);
+                        k--;
+                        if (k==0)
+                            break;
+                    }
+                    if (k==0)
+                        break;
+                }
+            }
+        }
+        return result;
+    }
+}

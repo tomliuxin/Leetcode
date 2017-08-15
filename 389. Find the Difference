@@ -1,0 +1,24 @@
+public class Solution {
+    public char FindTheDifference(string s, string t) {
+        int[] hash1=new int[256];
+        int[] hash2=new int[256];
+        if (string.IsNullOrEmpty(s))
+        {
+            return t[0];
+        }
+        if (!string.IsNullOrEmpty(s) && !string.IsNullOrEmpty(t))
+        {
+            foreach(char c in s)
+                hash1[c]++;
+            foreach(char c in t)
+                hash2[c]++;
+            for(char c='a';c<='z';c++)
+            {
+                if (hash1[c]!=hash2[c])
+                    return c;
+            }
+        }
+        
+        return ' ';
+    }
+}

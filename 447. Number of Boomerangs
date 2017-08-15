@@ -1,0 +1,42 @@
+public class Solution {
+    public int NumberOfBoomerangs(int[,] points) {
+        int num=0;
+        if (points!=null)
+        {
+            int n=points.GetLength(0);
+            Dictionary<int,Dictionary<int,int>> dict=new Dictionary<int,Dictionary<int,int>>();
+            for(int i=0;i<n;i++)
+            {
+                Dictionary<int,int> dict1=new Dictionary<int,int>();
+                dict.Add(i,dict1);
+                
+                for(int j=0;j<n;j++)
+                {
+                    if (j!=i)
+                    {
+                        int dist=(points[j,0]-points[i,0])*(points[j,0]-points[i,0])+(points[j,1]-points[i,1])*(points[j,1]-points[i,1]);
+                        if (dict1.ContainsKey(dist))
+                        {
+                            dict1[dist]++;
+                        }
+                        else
+                        {
+                            dict1.Add(dist,1);
+                        }
+                    }
+                }
+            }
+            foreach(int key in dict.Keys)
+            {
+                foreach(int key1 in dict[key].Keys)
+                {
+                    if (dict[key][key1]>=2)
+                    {
+                        num+=(dict[key][key1]-1)*dict[key][key1];
+                    }
+                }
+            }
+        }
+        return num;
+    }
+}

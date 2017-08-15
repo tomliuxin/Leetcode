@@ -1,0 +1,81 @@
+public class Solution {
+    public IList<IList<int>> PalindromePairs(string[] words) {
+        IList<IList<int>> list=new List<IList<int>>();
+        if (words!=null && words.Length>0)
+        {
+            Dictionary<string,int> dict=new Dictionary<string,int>();
+            for(int i=0;i<words.Length;i++)
+            {
+                dict.Add(words[i],i);
+            }
+            
+            for(int i1=0;i1<words.Length;i1++)
+            {
+                string w=words[i1];
+                if (w=="")
+                {
+                    for(int j=0;j<words.Length;j++)
+                    {
+                        if (i1!=j && isPalindromes(words[j]))
+                        {
+                            list.Add(new List<int>(){i1,j});
+                            list.Add(new List<int>(){j,i1});
+                        }
+                    }
+                }
+                else
+                {
+                    string r=revert(w);
+                    if (dict.ContainsKey(r) && dict[r]!=dict[w])
+                    {
+                        list.Add(new List<int>(){dict[w],dict[r]});
+                    }
+                    for(int i=1;i<w.Length;i++)
+                    {
+                        string front=w.Substring(0,i);
+                        string end=w.Substring(w.Length-i,i);
+                        string rFront=revert(w.Substring(i));
+                        string rEnd=revert(w.Substring(0,w.Length-i));
+                        if (isPalindromes(front) && dict.ContainsKey(rFront))
+                        {
+                            list.Add(new List<int>(){dict[rFront],dict[w]});
+                        }
+                        if (isPalindromes(end) && dict.ContainsKey(rEnd))
+                        {
+                            list.Add(new List<int>(){dict[w],dict[rEnd]});
+                        }
+
+                    }
+                }
+            }
+        }
+        return list;
+    }
+    
+    private bool isPalindromes(string s)
+    {
+        int start=0;
+        int end=s.Length-1;
+        while(start<end)
+        {
+            if (s[start++]!=s[end--])
+                return false;
+        }
+        return true;
+    }
+    
+    private string revert(string s)
+    {
+        char[] arr=s.ToCharArray();
+        int start=0,end=s.Length-1;
+        while(start<end)
+        {
+            char temp=arr[start];
+            arr[start]=arr[end];
+            arr[end]=temp;
+            start++;
+            end--;
+        }
+        return new string(arr);
+    }
+}

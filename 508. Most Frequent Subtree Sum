@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    Dictionary<int,int> dict=new Dictionary<int,int>();
+    
+    public int[] FindFrequentTreeSum(TreeNode root) {
+        int sum=countSum(root);
+        int max=0;
+        foreach(int key in dict.Keys)
+        {
+            max=Math.Max(max,dict[key]);
+        }
+        List<int> list=new List<int>();
+        foreach(int key in dict.Keys)
+        {
+            if (dict[key]==max)
+                list.Add(key);
+        }
+        return list.ToArray();
+    }
+    
+    private int countSum(TreeNode root)
+    {
+        if (root==null)
+            return 0;
+        else
+        {
+            int sum=root.val+countSum(root.left)+countSum(root.right);
+            if (dict.ContainsKey(sum))
+            {
+                dict[sum]++;
+            }
+            else
+            {
+                dict.Add(sum,1);
+            }
+            return sum;
+        }
+        
+    }
+}

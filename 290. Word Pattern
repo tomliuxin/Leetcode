@@ -1,0 +1,45 @@
+public class Solution {
+    public bool WordPattern(string pattern, string str) {
+        if (!string.IsNullOrEmpty(pattern) && !string.IsNullOrEmpty(str))
+        {
+            Dictionary<char,List<int>> dict=new Dictionary<char,List<int>>();
+            Dictionary<string,List<int>> dict2=new Dictionary<string,List<int>>();
+            string[] words=str.Split(' ');
+            if (words.Length!=pattern.Length)
+                return false;
+            for(int i=0;i<pattern.Length;i++)
+            {
+                if (dict.ContainsKey(pattern[i]))
+                    dict[pattern[i]].Add(i);
+                else
+                    dict.Add(pattern[i],new List<int>(){i});
+            }
+            for(int i=0;i<words.Length;i++)
+            {
+                if (dict2.ContainsKey(words[i]))
+                    dict2[words[i]].Add(i);
+                else
+                    dict2.Add(words[i],new List<int>(){i});
+            }
+            if (dict.Keys.Count!=dict2.Keys.Count)
+                return false;
+            for(int i=0;i<dict.Keys.Count;i++)
+            {
+                List<int> l1=dict[dict.Keys.ElementAt(i)];
+                List<int> l2=dict2[dict2.Keys.ElementAt(i)];
+                if (l1.Count!=l2.Count)
+                    return false;
+                int index=0;
+                while(index<l1.Count)
+                {
+                    if (l1[index]!=l2[index])
+                        return false;
+                    index++;
+                }
+            }
+            return true;
+        }
+        
+        return false;
+    }
+}

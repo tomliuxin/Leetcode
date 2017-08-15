@@ -1,0 +1,28 @@
+public class Solution {
+    public int FindLHS(int[] nums) {
+        int max=0;
+        if (nums!=null && nums.Length>0)
+        {
+            Dictionary<int,int> dict=new Dictionary<int,int>();
+            foreach(int n in nums)
+            {
+                if (dict.ContainsKey(n))
+                {
+                    dict[n]++;
+                }
+                else
+                {
+                    dict.Add(n,1);
+                }
+            }
+            foreach(int key in dict.Keys)
+            {
+                if (dict.ContainsKey(key-1))
+                {
+                    max=Math.Max(max,dict[key]+dict[key-1]);
+                }
+            }
+        }
+        return max;
+    }
+}

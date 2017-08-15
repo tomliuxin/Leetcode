@@ -1,0 +1,29 @@
+public class Solution {
+    public IList<int> FindAnagrams(string s, string p) {
+        int[] hash=new int[256];
+        foreach(char c in p)
+        {
+            hash[c]++;
+        }
+        IList<int> list=new List<int>();
+        if (!string.IsNullOrEmpty(s))
+        {
+            int count=p.Length;
+            int left=0;
+            int right=0;
+            while(right<s.Length)
+            {
+               if (hash[s[right++]]-->=1)
+                   count--;
+                if (count==0)
+                {
+                    list.Add(left);
+                }
+                if (right-left==p.Length && hash[s[left++]]++>=0)
+                    count++;
+            }
+        }
+        
+        return list;
+    }
+}

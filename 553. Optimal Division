@@ -1,0 +1,30 @@
+public class Solution {
+    public string OptimalDivision(int[] nums) {
+        if (nums!=null && nums.Length>0)
+        {
+            if (nums.Length==1)
+                return nums[0].ToString();
+            if (nums.Length==2)
+            {
+                return string.Format("{0}/{1}",nums[0],nums[1]);
+            }
+            string s="";
+            for(int i=0;i<nums.Length;i++)
+            {
+                if (i!=1)
+                {
+                    s+="/"+nums[i].ToString();
+                }
+                else
+                {
+                    s+="/("+nums[i].ToString();
+                }
+            }
+            s+=")";
+            s=s.Substring(1);
+            return s;
+        }
+        
+        return "";
+    }
+}

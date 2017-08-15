@@ -1,0 +1,48 @@
+public class Solution {
+    public bool IsAnagram(string s, string t) {
+        if (s==null && t==null)
+        {
+            return true;
+        }
+        if (s==null || t==null)
+        {
+            return false;
+        }
+        if (s.Length!=t.Length)
+        {
+            return false;
+        }
+        Dictionary<char,int> dictS=getDict(s);
+        Dictionary<char,int> dictT=getDict(t);
+        if (dictS.Keys.Count!=dictT.Keys.Count)
+        {
+            return false;
+        }
+        foreach (char c in dictS.Keys)
+        {
+            if (!dictT.ContainsKey(c) || dictT[c]!=dictS[c])
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    private Dictionary<char,int> getDict(string s)
+    {
+        Dictionary<char,int> dict=new Dictionary<char,int>();
+        foreach(char c in s)
+        {
+            if (dict.ContainsKey(c))
+            {
+                dict[c]++;
+            }
+            else
+            {
+                dict.Add(c,1);
+            }
+        }
+        return dict;
+    }
+}

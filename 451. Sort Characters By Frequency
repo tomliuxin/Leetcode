@@ -1,0 +1,26 @@
+public class Solution {
+    public string FrequencySort(string s) {
+        string result="";
+        if (!string.IsNullOrEmpty(s))
+        {
+            Dictionary<char,int> dict=new Dictionary<char,int>();
+            foreach(char c in s)
+            {
+                if (dict.ContainsKey(c))
+                {
+                    dict[c]++;
+                }
+                else 
+                    dict.Add(c,1);
+            }
+            var q=from key in dict.Keys
+                  orderby dict[key] descending
+                  select key;
+            foreach(char k in q)
+            {
+                result+=new string(k,dict[k]);
+            }
+        }
+        return result;
+    }
+}

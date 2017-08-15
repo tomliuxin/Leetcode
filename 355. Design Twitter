@@ -1,0 +1,153 @@
+public class Twitter {
+
+    Dictionary<int,List<int>> myPost=new Dictionary<int,List<int>>();
+    Dictionary<int,List<int>> myAllPost=new Dictionary<int,List<int>>();
+    Dictionary<int,List<int>> followed=new Dictionary<int,List<int>>();
+    Dictionary<int,int> allTweet=new Dictionary<int,int>();
+    int num=0;
+    /** Initialize your data structure here. */
+    public Twitter() {
+        
+    }
+    
+    /** Compose a new tweet. */
+    public void PostTweet(int userId, int tweetId) {
+        if (myPost.ContainsKey(userId))
+        {
+            if (!myPost[userId].Contains(tweetId))
+            {
+                myPost[userId].Add(tweetId);
+                myAllPost[userId].Add(tweetId);
+            }
+        }
+        else
+        {
+            myPost.Add(userId,new List<int>(){tweetId});
+            if (myAllPost.ContainsKey(userId))
+            {
+                if (!myAllPost[userId].Contains(tweetId))
+                {
+                    myAllPost[userId].Add(tweetId);
+                }
+            }
+            else
+            {
+                myAllPost.Add(userId, new List<int>(){tweetId});
+            }
+        }
+        num++;
+        if (allTweet.ContainsKey(tweetId))
+        {
+            allTweet[tweetId]=num;
+        }
+        else
+            allTweet.Add(tweetId,num);
+        
+        foreach(int id in followed.Keys)
+        {
+            if (followed[id].Contains(userId))
+            {
+                if (myAllPost.ContainsKey(id))
+                {
+                    if (!myAllPost[id].Contains(tweetId))
+                        myAllPost[id].Add(tweetId);
+                }
+                else
+                {
+                    myAllPost.Add(id,new List<int>(){tweetId});
+                }
+            }
+        }
+    }
+    
+    /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
+    public IList<int> GetNewsFeed(int userId) {
+        List<int> list=new List<int>();
+        if (myAllPost.ContainsKey(userId))
+        {
+            var q=(from tweetId in allTweet.Keys
+                  join tId in myAllPost[userId] on tweetId equals tId
+                  orderby allTweet[tweetId] descending 
+                  select tweetId).Take(10);
+                  
+            list=q.ToList<int>();
+        }
+        
+        return list;
+    }
+    
+    /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
+    public void Follow(int followerId, int followeeId) {
+        if (followerId!=followeeId)
+        {
+            if (followed.ContainsKey(followerId))
+            {
+                if (!followed[followerId].Contains(followeeId))
+                {
+                    followed[followerId].Add(followeeId);
+                    addFollowedTweet(followerId,followeeId);
+                }
+            }
+            else
+            {
+                followed.Add(followerId, new List<int>(){followeeId});
+                addFollowedTweet(followerId,followeeId);
+            }
+        }
+    }
+    
+    private void addFollowedTweet(int followerId,int followeeId)
+    {
+        if (followerId!=followeeId)
+        {
+            if (!myAllPost.ContainsKey(followerId))
+            {
+                myAllPost.Add(followerId,new List<int>());
+            }
+
+            if (myPost.ContainsKey(followeeId))
+            {               
+                foreach(int tweetId in myPost[followeeId])
+                {
+                    if (!myAllPost[followerId].Contains(tweetId))
+                    {
+                        myAllPost[followerId].Add(tweetId);
+                    }
+                }
+            }
+        }
+    }
+    
+    /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
+    public void Unfollow(int followerId, int followeeId) {
+        if (followerId!=followeeId)
+        {
+            if (followed.ContainsKey(followerId))
+            {
+                if (followed[followerId].Contains(followeeId))
+                {
+                    followed[followerId].Remove(followeeId);
+                    if (myPost.ContainsKey(followeeId) && myAllPost.ContainsKey(followerId))
+                    {
+                        foreach(int tweetId in myPost[followeeId])
+                        {
+                            if (myAllPost[followerId].Contains(tweetId))
+                            {
+                                myAllPost[followerId].Remove(tweetId);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Your Twitter object will be instantiated and called as such:
+ * Twitter obj = new Twitter();
+ * obj.PostTweet(userId,tweetId);
+ * IList<int> param_2 = obj.GetNewsFeed(userId);
+ * obj.Follow(followerId,followeeId);
+ * obj.Unfollow(followerId,followeeId);
+ */

@@ -1,0 +1,42 @@
+public class Solution {
+    public int RemoveDuplicates(int[] nums) {
+        if (nums!=null && nums.Length>0)
+        {
+            if (nums.Length<3)
+            {
+                return nums.Length;
+            }
+            else
+            {
+                int index=2;
+                int newIndex=2;
+                int i=0;
+                while (index<nums.Length && nums[index]==nums[index-2] )
+                {
+                    index++;
+                }
+                
+                while(index<nums.Length)
+                {
+                    if (nums[index]!=nums[index-1] || (nums[index]==nums[index-1] && i<1))
+                    {
+                        if (nums[index]==nums[index-1])
+                        {
+                            i++;
+                        }
+                        else
+                        {
+                            i=0;
+                        }
+                        nums[newIndex]=nums[index];
+                        newIndex++;
+                    }
+                    index++;
+                }
+                return newIndex;
+            }
+        }
+        
+        return 0;
+    }
+}
